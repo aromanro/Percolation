@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34511.84
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{6989167D-11E4-40FE-8C1A-2192A86A7E90}") = "Percolation", "Percolation.vfproj", "{AE10081F-50B2-466F-A25A-27B738F488DE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AE10081F-50B2-466F-A25A-27B738F488DE}.Debug|x64.ActiveCfg = Debug|x64
+		{AE10081F-50B2-466F-A25A-27B738F488DE}.Debug|x64.Build.0 = Debug|x64
+		{AE10081F-50B2-466F-A25A-27B738F488DE}.Debug|x86.ActiveCfg = Debug|Win32
+		{AE10081F-50B2-466F-A25A-27B738F488DE}.Debug|x86.Build.0 = Debug|Win32
+		{AE10081F-50B2-466F-A25A-27B738F488DE}.Release|x64.ActiveCfg = Release|x64
+		{AE10081F-50B2-466F-A25A-27B738F488DE}.Release|x64.Build.0 = Release|x64
+		{AE10081F-50B2-466F-A25A-27B738F488DE}.Release|x86.ActiveCfg = Release|Win32
+		{AE10081F-50B2-466F-A25A-27B738F488DE}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D1122A09-ACE5-4F86-9B8C-17CB0444C2FE}
+	EndGlobalSection
+EndGlobal
