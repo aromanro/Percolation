@@ -108,7 +108,7 @@
         end function cluster_percolates
 
 
-        function find_root(self, parents, c) result(res)
+    function find_root(self, parents, c) result(res)
         class (PercolationGrid2d), intent(in) :: self
         integer, dimension(self%size*self%size), intent(in) :: parents
         integer :: c, res
