@@ -60,10 +60,16 @@
                 i2 = i + 1
                 j2 = j
                 call self%clusters_union(parents, clusters, i, j, i2, j2, c)
+                
+                !i2 = i - 1
+                !call self%clusters_union(parents, clusters, i, j, i2, j2, c)
 
                 i2 = i
                 j2 = j + 1
                 call self%clusters_union(parents, clusters, i, j, i2, j2, c)
+                
+                !j2 = j - 1
+                !call self%clusters_union(parents, clusters, i, j, i2, j2, c)
             end do
         end do
 
@@ -77,7 +83,6 @@
         end do
 
         res = self%cluster_percolates(clusters)
-
     end function percolates
 
 
@@ -112,7 +117,6 @@
         end do
 
         res = c
-
     end function find_root
 
 
@@ -148,7 +152,6 @@
                 parents(mx) = mn
             end if
         end if
-
     end subroutine clusters_union
 
     end module Grid
