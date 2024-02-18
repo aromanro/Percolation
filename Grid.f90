@@ -147,8 +147,8 @@
             r1 = self%find_root(parents, clusters(i1,j1))
             r2 = self%find_root(parents, clusters(i2,j2))
             if (r1 /= r2) then
-                mx = MAX(r1, r2)
                 mn = MIN(r1, r2)
+                mx = MAX(r1, r2)
                 parents(mx) = mn
             end if
         end if

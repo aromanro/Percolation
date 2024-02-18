@@ -5,7 +5,7 @@
     
     type :: statistics
         integer, public :: points = 10
-        integer, public :: simulations = 1000000
+        integer, public :: simulations = 100000
         integer, public :: grid_size = 2
         real(dp), public :: lower = 0.0_dp
         real(dp), public :: upper = 1.0_dp
@@ -39,6 +39,7 @@
         class (statistics), intent(inout) :: self
         integer i
         
+        !$omp parallel do
         do i = 1, self%points
             block
             integer cnt, j
@@ -54,6 +55,7 @@
             self%values(i) = real(cnt, dp) / real(self%simulations, dp)
             end block
         end do
+        !$omp end parallel do
         
     end subroutine calculate
     
