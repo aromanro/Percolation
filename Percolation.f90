@@ -19,7 +19,7 @@
 
     ! Variables
     integer :: i, j, cnt
-    real(dp) :: p, pr, p2, pg
+    real(dp) :: p, pr, p2, pg, errorBar
     type(statistics) :: percolationStatistics
 
     ! Body of Percolation
@@ -40,9 +40,13 @@
         p = percolationStatistics%grids(i)%probability    
         pr = percolationStatistics%values(i)
         
+        ! percolation probability for a grid of size 2
         p2 = p * p
         p2 = p2 * (2.0 - p2)
-        print *, "Probability: ", p, " Percolation probability: ", pr, " expected: ", p2, " approx error bar: ", percolationStatistics%approx_error(pr), " diff: ", pr - p2
+        
+        errorBar = percolationStatistics%approx_error(pr)
+        print *, "Probability: ", p, " Percolation probability: ", pr, " expected: ", p2, " approx error bar: ", errorBar, " diff: ", pr - p2
+        !print *, p, pr, p2, errorBar !something like this for gnuplot
     end do
 
     end program Percolation
