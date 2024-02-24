@@ -13,12 +13,13 @@
 !****************************************************************************
 
     program Percolation
+    use, intrinsic :: iso_fortran_env, only: dp=>real64
     use Stats
     implicit none
 
     ! Variables
     integer :: i, j, cnt
-    real :: p, pr, p2, pg
+    real(dp) :: p, pr, p2, pg
     type(statistics) :: percolationStatistics
 
     ! Body of Percolation
@@ -41,7 +42,7 @@
         
         p2 = p * p
         p2 = p2 * (2.0 - p2)
-        print *, p, " ", pr, " expected: ", p2
+        print *, "Probability: ", p, " Percolation probability: ", pr, " expected: ", p2, " approx error bar: ", percolationStatistics%approx_error(pr), " diff: ", pr - p2
     end do
 
     end program Percolation

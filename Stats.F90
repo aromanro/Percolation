@@ -14,6 +14,7 @@
     contains
         procedure, public :: init_stats
         procedure, public :: calculate
+        procedure, public :: approx_error
     end type statistics    
         
     contains   
@@ -58,5 +59,13 @@
         !!$omp end parallel do
         
     end subroutine calculate
+    
+    function approx_error(self, val) result(err)
+        class (statistics), intent(in) :: self
+        real(dp), intent(in) :: val
+        real(dp) :: err
+        
+        err = sqrt(val * (1.0_dp - val) / real(self%simulations, dp))
+    end function approx_error
     
     end module Stats    
