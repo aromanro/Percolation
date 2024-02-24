@@ -26,10 +26,10 @@
     call RANDOM_SEED()
     
     percolationStatistics%grid_size = 2
-    percolationStatistics%points = 20
+    percolationStatistics%points = 100
     !percolationStatistics%grid_size = 10
-    !percolationStatistics%lower = 0.55
-    !percolationStatistics%upper = 0.65
+    !percolationStatistics%lower = 0.58
+    !percolationStatistics%upper = 0.60
     
     call percolationStatistics%init_stats
     

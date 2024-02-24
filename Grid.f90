@@ -55,32 +55,23 @@
 
         do i = 1, self%size
             do j = 1, self%size
-                if (.not. self%grid(i,j)) then
-                    cycle
+                if (self%grid(i,j)) then
+                    i2 = i + 1
+                    j2 = j
+                    call self%clusters_union(parents, clusters, ranks, i, j, i2, j2, c)
+
+                    i2 = i
+                    j2 = j + 1
+                    call self%clusters_union(parents, clusters, ranks, i, j, i2, j2, c)
                 end if
-
-                i2 = i + 1
-                j2 = j
-                call self%clusters_union(parents, clusters, ranks, i, j, i2, j2, c)
-                
-                !i2 = i - 1
-                !call self%clusters_union(parents, clusters, ranks, i, j, i2, j2, c)
-
-                i2 = i
-                j2 = j + 1
-                call self%clusters_union(parents, clusters, ranks, i, j, i2, j2, c)
-                
-                !j2 = j - 1
-                !call self%clusters_union(parents, clusters, ranks, i, j, i2, j2, c)
             end do
         end do
 
         do i = 1, self%size
             do j = 1, self%size
-                if (clusters(i,j) == 0) then
-                    cycle
+                if (clusters(i,j) /= 0) then
+                    clusters(i,j) = self%find_root(parents, clusters(i,j))
                 end if
-                clusters(i,j) = self%find_root(parents, clusters(i,j))
             end do
         end do
 

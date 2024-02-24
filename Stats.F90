@@ -5,7 +5,7 @@
     
     type :: statistics
         integer, public :: points = 10
-        integer, public :: simulations = 100000
+        integer, public :: simulations = 1000000
         integer, public :: grid_size = 2
         real(dp), public :: lower = 0.0_dp
         real(dp), public :: upper = 1.0_dp
