@@ -4,4 +4,4 @@
 
 Work in progress, just did something quickly
 
-Until I add an entry blog and more info on this, see: [wikipedia] link](https://en.wikipedia.org/wiki/Percolation_theory)
+Until I add an entry blog and more info on this, see: [wikipedia](https://en.wikipedia.org/wiki/Percolation_theory)
