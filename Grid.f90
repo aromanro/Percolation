@@ -45,10 +45,12 @@
         logical :: res
         integer, dimension(self%size,self%size) :: clusters
         integer, dimension(self%size*self%size) :: parents
+        integer, dimension(self%size*self%size) :: ranks
         integer :: i, j, i2, j2, c
 
         clusters = 0
         parents = 0
+        ranks = 0
         c = 1
 
         do i = 1, self%size
@@ -59,17 +61,17 @@
 
                 i2 = i + 1
                 j2 = j
-                call self%clusters_union(parents, clusters, i, j, i2, j2, c)
+                call self%clusters_union(parents, clusters, ranks, i, j, i2, j2, c)
                 
                 !i2 = i - 1
-                !call self%clusters_union(parents, clusters, i, j, i2, j2, c)
+                !call self%clusters_union(parents, clusters, ranks, i, j, i2, j2, c)
 
                 i2 = i
                 j2 = j + 1
-                call self%clusters_union(parents, clusters, i, j, i2, j2, c)
+                call self%clusters_union(parents, clusters, ranks, i, j, i2, j2, c)
                 
                 !j2 = j - 1
-                !call self%clusters_union(parents, clusters, i, j, i2, j2, c)
+                !call self%clusters_union(parents, clusters, ranks, i, j, i2, j2, c)
             end do
         end do
 
@@ -109,10 +111,11 @@
 
     function find_root(self, parents, c) result(res)
         class (PercolationGrid2d), intent(in) :: self
-        integer, dimension(self%size*self%size), intent(in) :: parents
+        integer, dimension(self%size*self%size), intent(inout) :: parents
         integer :: c, res
 
         do while (parents(c) /= c)
+            parents(c) = parents(parents(c))
             c = parents(c)
         end do
 
@@ -120,13 +123,14 @@
     end function find_root
 
 
-    subroutine clusters_union(self, parents, clusters, i1, j1, i2, j2, c)
+    subroutine clusters_union(self, parents, clusters, ranks, i1, j1, i2, j2, c)
         class (PercolationGrid2d), intent(in) :: self
         integer, dimension(self%size*self%size), intent(inout) :: parents
         integer, dimension(self%size,self%size), intent(inout) :: clusters
+        integer, dimension(self%size*self%size), intent(inout) :: ranks
         integer, intent(in) :: i1, j1, i2, j2
         integer, intent(inout) :: c
-        integer :: r1, r2, mx, mn
+        integer :: c1, c2, tmp
 
         if (i2 < 1 .or. i2 > self%size .or. j2 < 1 .or. j2 > self%size) then
             return
@@ -134,22 +138,30 @@
             return
         end if
 
-        if (clusters(i1,j1) == 0 .and. clusters(i2,j2) == 0) then
+        c1 = clusters(i1,j1)
+        c2 = clusters(i2,j2)
+        if (c1 == 0 .and. c2 == 0) then
             clusters(i1,j1) = c
             clusters(i2,j2) = c
             parents(c) = c
             c = c + 1
-        else if (clusters(i1,j1) == 0 .and. clusters(i2, j2) /= 0) then
-            clusters(i1,j1) = clusters(i2,j2)
-        else if (clusters(i1,j1) /= 0 .and. clusters(i2, j2) == 0) then
-            clusters(i2,j2) = clusters(i1,j1)
+        else if (c1 == 0 .and. c2 /= 0) then
+            clusters(i1,j1) = c2
+        else if (c1 /= 0 .and. c2 == 0) then
+            clusters(i2,j2) = c1
         else
-            r1 = self%find_root(parents, clusters(i1,j1))
-            r2 = self%find_root(parents, clusters(i2,j2))
-            if (r1 /= r2) then
-                mn = MIN(r1, r2)
-                mx = MAX(r1, r2)
-                parents(mx) = mn
+            c1 = self%find_root(parents, c1)
+            c2 = self%find_root(parents, c2)
+            if (c1 /= c2) then
+                if (ranks(c1) < ranks(c2)) then
+                    tmp = c1
+                    c1 = c2
+                    c2 = tmp
+                end if
+                parents(c2) = c1
+                if (ranks(c1) == ranks(c2)) then
+                    ranks(c1) = ranks(c1) + 1
+                end if
             end if
         end if
     end subroutine clusters_union

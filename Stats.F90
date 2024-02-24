@@ -39,7 +39,7 @@
         class (statistics), intent(inout) :: self
         integer i
         
-        !$omp parallel do
+        !!$omp parallel do
         do i = 1, self%points
             block
             integer cnt, j
@@ -55,7 +55,7 @@
             self%values(i) = real(cnt, dp) / real(self%simulations, dp)
             end block
         end do
-        !$omp end parallel do
+        !!$omp end parallel do
         
     end subroutine calculate
     
