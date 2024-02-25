@@ -87,15 +87,14 @@
 
         res = .false.
         outer: do i = 1, self%size
-            if (clusters(1,i) == 0) then
-                cycle
-            end if
-            do j = 1, self%size
-                if (clusters(1,i) == clusters(self%size,j)) then
-                    res = .true.
-                    exit outer
-                end if
-            end do
+            if (clusters(1,i) /= 0) then
+                do j = 1, self%size
+                    if (clusters(1,i) == clusters(self%size,j)) then
+                        res = .true.
+                        exit outer
+                    end if
+                end do
+            endif
         end do outer
         end function cluster_percolates
 
@@ -121,7 +120,7 @@
         integer, dimension(self%size*self%size), intent(inout) :: ranks
         integer, intent(in) :: i1, j1, i2, j2
         integer, intent(inout) :: c
-        integer :: c1, c2, tmp
+        integer :: c1, c2
 
         if (i2 < 1 .or. i2 > self%size .or. j2 < 1 .or. j2 > self%size) then
             return
@@ -145,9 +144,12 @@
             c2 = self%find_root(parents, c2)
             if (c1 /= c2) then
                 if (ranks(c1) < ranks(c2)) then
+                    block
+                    integer :: tmp
                     tmp = c1
                     c1 = c2
                     c2 = tmp
+                    end block
                 end if
                 parents(c2) = c1
                 if (ranks(c1) == ranks(c2)) then

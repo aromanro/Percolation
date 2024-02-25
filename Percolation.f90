@@ -21,6 +21,8 @@
     integer :: i, j, cnt
     real(dp) :: p, pr, p2, pg, errorBar
     type(statistics) :: percolationStatistics
+    character(len=20) :: filename
+    integer :: unit
 
     ! Body of Percolation
     call RANDOM_INIT(.false.,.true.)
@@ -36,6 +38,9 @@
     
     call percolationStatistics%calculate
     
+    filename = "percolation.dat"
+    OPEN(NEWUNIT=unit, FILE=filename, STATUS="UNKNOWN", ACTION="WRITE")
+    
     do i = 1, percolationStatistics%points
         p = percolationStatistics%grids(i)%probability    
         pr = percolationStatistics%values(i)
@@ -45,8 +50,8 @@
         p2 = p2 * (2.0 - p2)
         
         errorBar = percolationStatistics%approx_error(pr)
-        print *, "Probability: ", p, " Percolation probability: ", pr, " expected: ", p2, " approx error bar: ", errorBar, " diff: ", pr - p2
-        !print *, p, pr, p2, errorBar !something like this for gnuplot
+        !print *, "Probability: ", p, " Percolation probability: ", pr, " expected: ", p2, " approx error bar: ", errorBar, " diff: ", pr - p2
+        write(unit,'(F,F,F,F)') p, pr, p2, errorBar !something like this for gnuplot
     end do
 
     end program Percolation
