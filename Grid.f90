@@ -1,7 +1,7 @@
     module Grid
     use, intrinsic :: iso_fortran_env, only: dp=>real64
     implicit none
-
+    
     type :: PercolationGrid2d
         integer, public :: size = 0
         real(dp), public :: probability = 0.5_dp

@@ -1,11 +1,11 @@
-    module Stats
+    module Stats    
     use, intrinsic :: iso_fortran_env, only: dp=>real64
     use Grid    
-    implicit none
+    implicit none    
     
     type :: statistics
         integer, public :: points = 10
-        integer, public :: simulations = 3000
+        integer, public :: simulations = 10000
         integer, public :: grid_size = 2
         real(dp), public :: lower = 0.0_dp
         real(dp), public :: upper = 1.0_dp

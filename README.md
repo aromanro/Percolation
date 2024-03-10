@@ -9,3 +9,5 @@ Until I add an entry blog and more info on this, see: [wikipedia](https://en.wik
 Gnuplot chart for a grid of size 2 versus exact values:
 
 ![Gnuplot for size 2](data/data2.svg)
+
+![Gnuplot for 10, 40, 160](data/percolation.svg)
