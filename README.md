@@ -10,4 +10,6 @@ Gnuplot chart for a grid of size 2 versus exact values:
 
 ![Gnuplot for size 2](data/data2.svg)
 
+Critical probability:
+
 ![Gnuplot for 10, 40, 160](data/percolation.svg)
