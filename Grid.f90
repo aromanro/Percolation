@@ -8,6 +8,7 @@
         logical, dimension(:,:), allocatable, public :: grid
     contains
         procedure, public :: init
+        final :: finalize
         procedure, public :: fill
         procedure, public :: percolates
         procedure, private :: cluster_percolates
@@ -20,10 +21,15 @@
     subroutine init(self)
         class (PercolationGrid2d), intent(inout) :: self
 
+        if (allocated(self%grid)) deallocate(self%grid)
         allocate(self%grid(self%size, self%size))
     end subroutine init
     
-    
+    subroutine finalize(self)
+        type (PercolationGrid2d), intent(inout) :: self
+
+        if (allocated(self%grid)) deallocate(self%grid)
+    end subroutine finalize
     
     subroutine fill(self)
         class (PercolationGrid2d), intent(inout) :: self
@@ -43,10 +49,16 @@
     function percolates(self) result(res)
         class (PercolationGrid2d), intent(in) :: self
         logical :: res
-        integer, dimension(self%size,self%size) :: clusters
-        integer, dimension(self%size*self%size) :: parents
-        integer, dimension(self%size*self%size) :: ranks
+        integer, dimension(:,:), allocatable :: clusters
+        integer, dimension(:), allocatable :: parents
+        integer, dimension(:), allocatable ::  ranks
         integer :: i, j, i2, j2, c
+        
+        allocate(clusters(self%size, self%size))
+        
+        i = self%size * self%size
+        allocate(parents(i))
+        allocate(ranks(i))
 
         clusters = 0
         parents = 0
@@ -69,13 +81,16 @@
 
         do i = 1, self%size
             do j = 1, self%size
-                if (clusters(i,j) /= 0) then
-                    clusters(i,j) = self%find_root(parents, clusters(i,j))
-                end if
+                if (clusters(i,j) /= 0) clusters(i,j) = self%find_root(parents, clusters(i,j))
             end do
         end do
 
+        deallocate(parents)
+        deallocate(ranks)
+        
         res = self%cluster_percolates(clusters)
+        
+        deallocate(clusters)
     end function percolates
 
 

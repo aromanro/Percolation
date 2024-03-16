@@ -60,10 +60,8 @@
     print *, "Computing percolation for grid size 160..."
     call calculate_stats("percolation.dat", 160, 100, 3000, 0.55_dp, 0.65_dp)
     
-    ! This is way too much, stack overflow... also it probably takes a lot of time
-    ! I'll see if I'll fix it
-    !print *, "Computing percolation for grid size 640..."
-    !call calculate_stats("percolation.dat", 640, 100, 3000, 0.55_dp, 0.65_dp)
+    print *, "Computing percolation for grid size 640..."
+    call calculate_stats("percolation.dat", 640, 100, 3000, 0.55_dp, 0.65_dp)
 
     end program Percolation
 

@@ -13,6 +13,7 @@
         class (PercolationGrid2d), dimension(:), allocatable, public :: grids
     contains
         procedure, public :: init_stats
+        final :: destructor
         procedure, public :: calculate
         procedure, public :: approx_error
     end type statistics    
@@ -23,17 +24,26 @@
         class (statistics), intent(inout) :: self
         integer i
 
+        if (allocated(self%values)) deallocate(self%values)
         allocate(self%values(self%points))
         
+        if (allocated(self%grids)) deallocate(self%grids)
         allocate(self%grids(self%points))
         
         do i = 1, self%points
             self%values(i) = 0.0_dp
             self%grids(i)%size = self%grid_size
             self%grids(i)%probability = self%lower + real(i-1, dp) * (self%upper - self%lower) / real(self%points-1, dp)
-            call self%grids(i)%init
+            !call self%grids(i)%init
         end do
     end subroutine init_stats    
+    
+    subroutine destructor(self)
+        type (statistics), intent(inout) :: self
+        
+        if (allocated(self%values)) deallocate(self%values)
+        if (allocated(self%grids)) deallocate(self%grids)
+    end subroutine destructor
     
     
     subroutine calculate(self)
@@ -45,6 +55,7 @@
             block
             integer cnt, j
             
+            call self%grids(i)%init
             cnt = 0
             do j = 1, self%simulations
                 call self%grids(i)%fill
@@ -52,6 +63,7 @@
                     cnt = cnt + 1
                 end if
             end do
+            deallocate(self%grids(i)%grid)
           
             self%values(i) = real(cnt, dp) / real(self%simulations, dp)
             end block
