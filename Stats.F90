@@ -1,5 +1,6 @@
     module Stats    
     use, intrinsic :: iso_fortran_env, only: dp=>real64
+    !use omp_lib
     use Grid    
     implicit none    
     
@@ -50,7 +51,7 @@
         class (statistics), intent(inout) :: self
         integer i
         
-        !!$omp parallel do
+        !!$omp parallel do private(i) shared(self) schedule(static)
         do i = 1, self%points
             block
             integer cnt, j
