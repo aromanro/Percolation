@@ -23,7 +23,7 @@
         percolationStatistics%lower = lower
         percolationStatistics%upper = upper
         
-        call percolationStatistics%init_stats
+        call percolationStatistics%init
         call percolationStatistics%calculate
         
         inquire(FILE=filename, EXIST=exists)

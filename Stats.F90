@@ -4,6 +4,9 @@
     use Grid    
     implicit none    
     
+    private    ! hide the type-bound procedure implementation procedures
+    public statistics    ! make the type public
+    
     type :: statistics
         integer, public :: points = 10
         integer, public :: simulations = 10000
@@ -13,7 +16,7 @@
         real(dp), dimension(:), allocatable, public :: values
         class (PercolationGrid2d), dimension(:), allocatable, public :: grids
     contains
-        procedure, public :: init_stats
+        procedure, public :: init
         final :: destructor
         procedure, public :: calculate
         procedure, public :: approx_error
@@ -21,7 +24,7 @@
         
     contains   
     
-    subroutine init_stats(self)
+    subroutine init(self)
         class (statistics), intent(inout) :: self
         integer i
 
@@ -37,7 +40,7 @@
             self%grids(i)%probability = self%lower + real(i-1, dp) * (self%upper - self%lower) / real(self%points-1, dp)
             !call self%grids(i)%init
         end do
-    end subroutine init_stats    
+    end subroutine init   
     
     subroutine destructor(self)
         type (statistics), intent(inout) :: self

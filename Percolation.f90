@@ -33,7 +33,7 @@
     percolationStatistics2%points = 100
     percolationStatistics2%simulations = 5000
     
-    call percolationStatistics2%init_stats
+    call percolationStatistics2%init
     call percolationStatistics2%calculate
     
     filename = "data2.dat"
