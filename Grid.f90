@@ -84,13 +84,8 @@
                 if (clusters(i,j) /= 0) clusters(i,j) = self%find_root(parents, clusters(i,j))
             end do
         end do
-
-        deallocate(parents)
-        deallocate(ranks)
         
         res = self%cluster_percolates(clusters)
-        
-        deallocate(clusters)
     end function percolates
 
 

@@ -19,8 +19,8 @@
     implicit none    
 
     ! Variables
-    integer :: i, j, cnt
-    real(dp) :: p, pr, p2, pg, errorBar
+    integer :: i
+    real(dp) :: p, pr, p2, errorBar
     type(statistics) :: percolationStatistics2
     character(len=20) :: filename
     integer :: unit
