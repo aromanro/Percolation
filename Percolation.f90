@@ -49,7 +49,7 @@
         
         errorBar = percolationStatistics2%approx_error(pr)
         !print *, "Probability: ", p, " Percolation probability: ", pr, " expected: ", p2, " approx error bar: ", errorBar, " diff: ", pr - p2
-        write(unit,'(F,F,F,F)') p, pr, p2, 2.0_dp * errorBar !something like this for gnuplot
+        write(unit,'(F21.16,F21.16,F21.16,F21.16)') p, pr, p2, 2.0_dp * errorBar !something like this for gnuplot
     end do
     CLOSE(unit)
     

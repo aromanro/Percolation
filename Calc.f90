@@ -38,7 +38,7 @@
             pr = percolationStatistics%values(i)
         
             errorBar = percolationStatistics%approx_error(pr)
-            write(unit,'(F,F,F,F)') p, pr, 2.0_dp * errorBar !something like this for gnuplot
+            write(unit,'(F21.16,F21.16,F21.16,F21.16)') p, pr, 2.0_dp * errorBar !something like this for gnuplot
         end do    
 
         write(unit,*) ""
