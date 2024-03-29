@@ -17,7 +17,6 @@
         class (PercolationGrid2d), dimension(:), allocatable, public :: grids
     contains
         procedure, public :: init
-        final :: finalize
         procedure, public :: calculate
         procedure, public :: approx_error
     end type statistics    
@@ -41,13 +40,6 @@
             !call self%grids(i)%init
         end do
     end subroutine init   
-    
-    subroutine finalize(self)
-        type (statistics), intent(inout) :: self
-        
-        if (allocated(self%values)) deallocate(self%values)
-        if (allocated(self%grids)) deallocate(self%grids)
-    end subroutine finalize
     
     
     subroutine calculate(self)

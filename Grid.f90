@@ -11,7 +11,6 @@
         logical, dimension(:,:), allocatable, public :: grid
     contains
         procedure, public :: init
-        final :: finalize
         procedure, public :: fill
         procedure, public :: percolates
         procedure, private :: cluster_percolates
@@ -28,11 +27,6 @@
         allocate(self%grid(self%size, self%size))
     end subroutine init
     
-    subroutine finalize(self)
-        type (PercolationGrid2d), intent(inout) :: self
-
-        if (allocated(self%grid)) deallocate(self%grid)
-    end subroutine finalize
     
     subroutine fill(self)
         class (PercolationGrid2d), intent(inout) :: self
