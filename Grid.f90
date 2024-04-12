@@ -33,8 +33,8 @@
         integer :: i, j
         real(dp) :: r
         ! fill grid with random values with probability of self%probability
-        do i = 1, self%size
-            do j = 1, self%size
+        do j = 1, self%size
+            do i = 1, self%size
                 call RANDOM_NUMBER(r)
                 self%grid(i,j) = (r < self%probability)
             end do
@@ -62,22 +62,22 @@
         ranks = 0
         c = 1
 
-        do i = 1, self%size
-            do j = 1, self%size
+        do j = 1, self%size
+            do i = 1, self%size
                 if (self%grid(i,j)) then
-                    i2 = i + 1
-                    j2 = j
-                    call self%clusters_union(parents, clusters, ranks, i, j, i2, j2, c)
-
                     i2 = i
                     j2 = j + 1
+                    call self%clusters_union(parents, clusters, ranks, i, j, i2, j2, c)
+
+                    i2 = i + 1
+                    j2 = j
                     call self%clusters_union(parents, clusters, ranks, i, j, i2, j2, c)
                 end if
             end do
         end do
 
-        do i = 1, self%size
-            do j = 1, self%size
+        do j = 1, self%size
+            do i = 1, self%size
                 if (clusters(i,j) /= 0) clusters(i,j) = self%find_root(parents, clusters(i,j))
             end do
         end do
