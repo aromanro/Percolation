@@ -8,6 +8,8 @@ Work in progress, just did something quickly
 
 Until I add an entry blog and more info on this, see: [wikipedia](https://en.wikipedia.org/wiki/Percolation_theory)
 
+Here is an open access book on the subject: [Percolation Theory Using Python](https://link.springer.com/book/10.1007/978-3-031-59900-2)
+
 Gnuplot chart for a grid of size 2 versus exact values:
 
 ![Gnuplot for size 2](data/data2.svg)
