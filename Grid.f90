@@ -48,7 +48,7 @@
         logical :: res
         integer, dimension(:,:), allocatable :: clusters
         integer, dimension(:), allocatable :: parents
-        integer, dimension(:), allocatable ::  ranks
+        integer, dimension(:), allocatable :: ranks
         integer :: i, j, i2, j2, c
         
         allocate(clusters(self%size, self%size))
@@ -67,11 +67,11 @@
                 if (self%grid(i,j)) then
                     i2 = i
                     j2 = j + 1
-                    call self%clusters_union(parents, clusters, ranks, i, j, i2, j2, c)
+                    c = self%clusters_union(parents, clusters, ranks, i, j, i2, j2, c)
 
                     i2 = i + 1
                     j2 = j
-                    call self%clusters_union(parents, clusters, ranks, i, j, i2, j2, c)
+                    c = self%clusters_union(parents, clusters, ranks, i, j, i2, j2, c)
                 end if
             end do
         end do
@@ -120,50 +120,49 @@
     end function find_root
 
 
-    subroutine clusters_union(self, parents, clusters, ranks, i1, j1, i2, j2, c)
+    function clusters_union(self, parents, clusters, ranks, i1, j1, i2, j2, c) result(res)
         class (PercolationGrid2d), intent(in) :: self
         integer, dimension(self%size*self%size), intent(inout) :: parents
         integer, dimension(self%size,self%size), intent(inout) :: clusters
         integer, dimension(self%size*self%size), intent(inout) :: ranks
-        integer, intent(in) :: i1, j1, i2, j2
-        integer, intent(inout) :: c
-        integer :: c1, c2
+        integer :: i1, j1, i2, j2
+        integer :: c, c1, c2, res
 
-        if (i2 < 1 .or. i2 > self%size .or. j2 < 1 .or. j2 > self%size) then
-            return
-        else if (.not. self%grid(i1,j1) .or. .not. self%grid(i2,j2)) then
-            return
-        end if
-
-        c1 = clusters(i1,j1)
-        c2 = clusters(i2,j2)
-        if (c1 == 0 .and. c2 == 0) then
-            clusters(i1,j1) = c
-            clusters(i2,j2) = c
-            parents(c) = c
-            c = c + 1
-        else if (c1 == 0 .and. c2 /= 0) then
-            clusters(i1,j1) = c2
-        else if (c1 /= 0 .and. c2 == 0) then
-            clusters(i2,j2) = c1
-        else
-            c1 = self%find_root(parents, c1)
-            c2 = self%find_root(parents, c2)
-            if (c1 /= c2) then
-                if (ranks(c1) < ranks(c2)) then
-                    block
-                    integer :: tmp
-                    tmp = c1
-                    c1 = c2
-                    c2 = tmp
-                    end block
-                end if
-                parents(c2) = c1
-                if (ranks(c1) == ranks(c2)) then
-                    ranks(c1) = ranks(c1) + 1
+        if (i2 > 0 .and. i2 <= self%size .and. j2 > 0 .and. j2 <= self%size) then
+            if (self%grid(i1,j1) .and. self%grid(i2,j2)) then
+                c1 = clusters(i1,j1)
+                c2 = clusters(i2,j2)
+                if (c1 == 0 .and. c2 == 0) then
+                    clusters(i1,j1) = c
+                    clusters(i2,j2) = c
+                    parents(c) = c
+                    c = c + 1
+                else if (c1 == 0 .and. c2 /= 0) then
+                    clusters(i1,j1) = c2
+                else if (c1 /= 0 .and. c2 == 0) then
+                    clusters(i2,j2) = c1
+                else
+                    c1 = self%find_root(parents, c1)
+                    c2 = self%find_root(parents, c2)
+                    if (c1 /= c2) then
+                        if (ranks(c1) < ranks(c2)) then
+                            block
+                            integer :: tmp
+                            tmp = c1
+                            c1 = c2
+                            c2 = tmp
+                            end block
+                        end if
+                        parents(c2) = c1
+                        if (ranks(c1) == ranks(c2)) then
+                            ranks(c1) = ranks(c1) + 1
+                        end if
+                    end if
                 end if
             end if
         end if
-    end subroutine clusters_union
+        
+        res = c
+    end function clusters_union
 
     end module Grid
