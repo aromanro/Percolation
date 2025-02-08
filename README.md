@@ -4,9 +4,8 @@
 
 [![Build on Ubuntu](https://github.com/aromanro/Percolation/actions/workflows/cmake.yml/badge.svg)](https://github.com/aromanro/Percolation/actions/workflows/cmake.yml)
 
-Work in progress, just did something quickly
 
-Until I add an entry blog and more info on this, see: [wikipedia](https://en.wikipedia.org/wiki/Percolation_theory)
+Computational Physics blog page: [Percolation in Fortran](https://compphys.go.ro/percolation-in-fortran/)
 
 Here is an open access book on the subject: [Percolation Theory Using Python](https://link.springer.com/book/10.1007/978-3-031-59900-2)
 
